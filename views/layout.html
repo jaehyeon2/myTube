@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{{title}}</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="/main.css">
+ 	</head>
+	<body>
+		<div class="container">
+			<div class="top">
+				
+				<div class="start">
+					<a href="/">
+						<img src="./img/youtube-home-icon"/>
+					</a>
+				</div>
+				<div class="mid">
+					<!--검색 창-->
+				</div>
+				<div class="profile">
+					{% if user and user.id %}
+					<a href="/profile"><div class="user-name">{{user.nick}}</div></a>
+					<a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+					{% else %}
+					<a id="login" href="/login" class="btn">로그인</a>
+					<a id="join" href="/join" class="btn">회원가입</a>
+					{% endif %}
+				</div>
+				<footer>
+					Made by&nbsp;
+					<a href="https://www.github.com/jaehyeon2" target="_blank">Jaehyeon2</a>
+				</footer>
+			</div>
+			{% block content %}
+			{% endblock %}
+		</div>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script>
+			window.onload=()=>{
+				if (new URL(location.href).searchParams.get('loginError')){
+					alert(new URL(location.href).searchParams.get('loginError'));
+				}
+			};
+		</script>
+		{% block script %}
+		{% endblock %}
+	</body>
+</html>
