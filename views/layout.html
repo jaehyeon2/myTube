@@ -13,11 +13,16 @@
 				
 				<div class="start">
 					<a href="/">
-						<img src="./img/youtube-home-icon"/>
+						<img src="./img/youtube-home-icon.jpg" width="130" height="53"/>
 					</a>
 				</div>
 				<div class="mid">
-					<!--검색 창-->
+					<form id="hashtag-form" action="/hashtag">
+						<input type="text" name="hashtag" placeholder="search" />
+						<button class="btn">
+							검색
+						</button>
+					</form>
 				</div>
 				<div class="profile">
 					{% if user and user.id %}
@@ -28,13 +33,14 @@
 					<a id="join" href="/join" class="btn">회원가입</a>
 					{% endif %}
 				</div>
-				<footer>
-					Made by&nbsp;
-					<a href="https://www.github.com/jaehyeon2" target="_blank">Jaehyeon2</a>
-				</footer>
+				
 			</div>
 			{% block content %}
 			{% endblock %}
+			<footer>
+				Made by&nbsp;
+				<a href="https://www.github.com/jaehyeon2" target="_blank">Jaehyeon2</a>
+			</footer>
 		</div>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script>
