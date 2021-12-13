@@ -1,1 +1,18 @@
 {% extends "layout.html" %}
+
+{% block content %}
+{% for thumbnail in thumbnails %}
+<div class="video" location.href="/video/{{video.id}}">
+    <!--table 형식으로 다시 제작-->
+    <div class="video-thumbnail">
+        <img src="img/{{video.thumbnail}}" alt="썸네일">
+    </div>
+    <div class="video-title">
+        {{video.title}}
+    </div>
+    <div class="video-views">
+        {{video.views}} views
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
