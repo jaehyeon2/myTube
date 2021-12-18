@@ -20,3 +20,11 @@ router.get('/', async(req, res, next)=>{
         next(error);
     }
 });
+
+router.post('/comment', async(req, res, next)=>{
+    try{
+        const {comment}=req.body;
+    }catch(error){
+
+    }
+});

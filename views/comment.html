@@ -1,7 +1,7 @@
 {% extends 'channel.html' %}
 {% block comment %}
 댓글 {{commemt.num}}개<br>
-<form id="comment-form">
+<form action="/comment" id="comment-form" method="post">
     <input id="comment" type="text" placeholder="댓글을 작성하세요.">
     <button type="submit" id="addComment">댓글 작성</button>
 </form>
