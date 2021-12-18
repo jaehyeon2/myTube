@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
   },
   "repository": {
     "type": "git",
@@ -17,15 +18,19 @@
   },
   "homepage": "https://github.com/jaehyeon2/myTube#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
-    "nodemon": "^2.0.15",
     "nunjucks": "^3.2.3",
+    "passport": "^0.5.2",
     "sequelize": "^6.11.0",
     "sequelize-cli": "^6.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
