@@ -28,3 +28,7 @@ router.post('/comment', async(req, res, next)=>{
 
     }
 });
+
+router.get('/profile', async(req, res, next)=>{
+    
+});
