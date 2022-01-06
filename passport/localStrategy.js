@@ -7,7 +7,7 @@ module.exports=()=>{
     passport.use(new LocalStrategy({
         usernameField:'email',
         passportField:'password',
-    },async(email, passport, done)=>{
+    },async(email, password, done)=>{
         try{
             const exUser=await User.findOne({where:{email}});
             console.log('email', email);

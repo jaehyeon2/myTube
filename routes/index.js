@@ -37,11 +37,15 @@ router.post('/comment', async(req, res, next)=>{
     }
 });
 
-router.get('/profile', async(req, res, next)=>{
+router.get('/profile/:id', async(req, res, next)=>{
     try{
-        
+        const user=await User.findOne({}, {where:{UserId:req.user.id}});
+        const videos=await Video.findAll({}, {where:{UserId:res.user.id}});
+        console.log('nick', user.nick);
+        res.render('channel',{title:myTube-`${user.nick}`});
     } catch{
-
+        console.error(error);
+        next(error);
     }
 });
 
