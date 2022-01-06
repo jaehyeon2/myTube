@@ -21,6 +21,14 @@ router.get('/', async(req, res, next)=>{
     }
 });
 
+router.get('/join', async(req, res)=>{
+    res.render('join', {title:'myTube-join'});
+});
+
+router.get('/login', async(req, res)=>{
+    res.render('login', {title:'myTube-login'});
+})
+
 router.post('/comment', async(req, res, next)=>{
     try{
         const {comment}=req.body;
@@ -36,3 +44,5 @@ router.get('/profile', async(req, res, next)=>{
 
     }
 });
+
+module.exports=router;

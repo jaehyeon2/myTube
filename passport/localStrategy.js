@@ -12,7 +12,7 @@ module.exports=()=>{
             const exUser=await User.findOne({where:{email}});
             console.log('email', email);
             if(exUser){
-                const reqult=await bcrypt.compare(password, exUser.password);
+                const result=await bcrypt.compare(password, exUser.password);
                 if(result){
                     done(null, exUser);
                 }
