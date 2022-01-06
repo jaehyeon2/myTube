@@ -14,6 +14,7 @@ const {sequelize}=require('./models');
 const passportConfig=require('./passport');
 
 const app=express();
+passportConfig();
 app.set('port', process.env.PORT||3001);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
@@ -38,16 +39,6 @@ const sessionMiddleware=session({
         secure:false,
     },
 });
-
-app.use(session({
-    resave:false,
-    saveUninitialized:false,
-    secret:process.env.COOKIE_SECRET,
-    cookie:{
-        httpOnly:true,
-        secure:false,
-    },
-}));
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
