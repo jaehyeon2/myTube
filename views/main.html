@@ -2,9 +2,9 @@
 
 {% block content %}
 {% for video in videos %}
-<table border="1" width="30%">
+<table width="30%">
     <tr>
-        <td colspan="3"><img src="img/{{video.thumbnail}}" alt="썸네일"></td>
+        <td colspan="3"><a href="/video/{{video.id}}"><img src="img/{{video.thumbnail}}" alt="썸네일"></a></td>
     </tr>
     <tr>
         <td rowspan="2">{{user.nick}}</td>

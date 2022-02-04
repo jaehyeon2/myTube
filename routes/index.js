@@ -55,6 +55,18 @@ router.get('/profile/:id', async(req, res, next)=>{
     }
 });
 
+router.get('/video/:id', async(req, res, next)=>{
+    try{
+        const video=await Video.findOne({where:{id:req.params.id},});
+        res.render('video',{title:`myTube-${video.title}`,
+            video,
+        });
+    } catch{
+        console.error(error);
+        next(error);
+    }
+});
+
 router.get('/upload', isLoggedIn, async(req, res, next)=>{
     try{
         res.render('upload', {title:'myTube-upload'});
