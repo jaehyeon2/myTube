@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>
+	  <form id="video-form" action="/video" method="post" enctype="multipart/form-data">
+		  <div class="video-info">
+			  <label id="video-title" for="title">제목</label>
+			  <input id="title" name="title" type="text" placeholder="제목"/>
+		  </div>
+		  <div class="input-group">
+			  <textarea id="content" name="content" cols="30" maxlength="500" placeholder="내용"></textarea>
+		  </div>
+		  <div class="video-tag">
+			  <textarea id="hashtag" name="hashtag" cols="30" maxlength="500" placeholder="해시태그"></textarea>
+		  </div>
+		  <div>
+			  <label id="video-label" for="video">영상 업로드</label>
+			  <input id="video" type="file" accept="video/*" name="video"/>
+			  <button id="submit-btn" type="submit" class="btn">업로드 완료</button>
+		  </div>
+	  </form>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+	if (document.getElementById('video')) {
+		document.getElementById('video').addEventListener('change', function (e) {
+			const formData = new FormData();
+			console.log(this, this.files);
+			formData.append('video', this.files[0]);
+			axios
+				.post('/video/video', formData)
+				.then((res) => {
+				document.getElementById('video-url').value = res.data.url;
+				document.getElementById('video-preview').src = res.data.url;
+				document.getElementById('video-preview').style.display = 'inline';
+			})
+				.catch((err) => {
+				console.error(err);
+			});
+		});
+	}
+</script>
+{% endblock %}

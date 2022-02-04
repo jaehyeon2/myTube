@@ -20,14 +20,6 @@ module.exports=class Video extends Sequelize.Model{
 				type:Sequelize.STRING(300),
 				allowNull:false,
 			},
-			length:{
-				type:Sequelize.STRING(10),
-				allowNull:false,
-			},
-			thumbnail:{
-				type:Sequelize.STRING(300),
-				allowNull:false,
-			},
 			views:{
 				type:Sequelize.INTEGER,
 				allowNull:false,
@@ -36,10 +28,6 @@ module.exports=class Video extends Sequelize.Model{
 			hashtag:{
 				type:Sequelize.STRING(500),
 				allowNull:true,
-			},
-			category:{
-				type:Sequelize.STRING(100),
-				allowNull:false,
 			},
 		},{
 			sequelize,

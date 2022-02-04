@@ -55,6 +55,15 @@ router.get('/profile/:id', async(req, res, next)=>{
     }
 });
 
+router.get('/upload', isLoggedIn, async(req, res, next)=>{
+    try{
+        res.render('upload', {title:'myTube-upload'});
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
+})
+
 try{
     fs.readdirSync('uploads');
 } catch(error){
@@ -63,29 +72,26 @@ try{
 }
 
 const upload=multer({
-    storage:multer.diskStorage({
-        destination(req, file, cb){
-            cb(null, 'uploads/');
-        },
-        filename(req, file, cb){
-            const ext=path.extname(file.originalname);
-            cb(null, path.basename(file.originalname, ext)+Date.now()+ext);
-        },
-    }),
-    limits:{filSize:5*1024*1024},
+	storage:multer.diskStorage({
+		destination(req, file, cb){
+			cb(null, 'uploads/');
+		},
+		filename(req, file, cb){
+			const ext=path.extname(file.originalname);
+			cb(null, path.basename(file.originalname, ext)+new Date().valueOf()+ext);
+		},
+	}),
+	limits:{fileSize:500*1024*1024},
 });
 
-router.post('/video', isLoggedIn, upload.single('video'), (req, res)=>{
-    console.log(req.file);
-    res.json({url:`/video/${req.file.filname}`});
-});
 
-const upload2=multer();
-router.post('/', isLoggedIn, upload2.none(), async(req, res, next)=>{
-    try{
+router.post('/video', isLoggedIn, upload.single('video'), async(req, res, next)=>{
+	try{
+        console.log('video', req.body.url);
         const video=await Video.create({
+            title:req.body.title,
             content:req.body.content,
-            video:req.body.url,
+            video:req.file.filename,
             UserId:req.user.id,
         });
         const hashtags=req.body.content.match(/#[^\s#]+/g);
@@ -105,5 +111,6 @@ router.post('/', isLoggedIn, upload2.none(), async(req, res, next)=>{
         next(error);
     }
 });
+
 
 module.exports=router;
