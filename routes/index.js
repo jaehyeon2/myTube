@@ -6,6 +6,7 @@ const fs=require('fs');
 
 const {Comment, Hashtag, User, Video}=require('../models');
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
+const { runInContext } = require('vm');
 
 const router=express.Router();
 
@@ -40,16 +41,16 @@ router.post('/comment', async(req, res, next)=>{
     }
 });
 
-router.get('/profile/:id', async(req, res, next)=>{
+router.get('/profile/:id', async (req, res, next)=>{
     try{
         const user=await User.findOne({where:{id:req.params.id},});
-        const videos=await Video.findAll({where:{id:req.params.id},});
+        console.log('user', user);
+        console.log('nick', user.nick);
+        const videos=await Video.findAll({}, {where:{UserId:req.params.id},});
         console.log('sdf');
-        res.render('channel',{title:`myTube-${user.nick}`,
-            user,
-            videos,
-        });
-    } catch{
+        res.render('channel',{title:`${user.nick}-myTube`, user, videos});
+        console.log('fin');
+    } catch(error){
         console.error(error);
         next(error);
     }
@@ -70,16 +71,24 @@ router.get('/video/:id', async(req, res, next)=>{
         res.render('video',{title:`myTube-${video.title}`,
             video,
         });
-    } catch{
+    } catch(error){
         console.error(error);
         next(error);
     }
 });
 
-router.get('/upload', isLoggedIn, async(req, res)=>{
-    
+router.get('/delete/video/:id', isLoggedIn, async(req, res, next)=>{
+
+})
+
+router.get('/upload', isLoggedIn, async(req, res, next)=>{
+    try{
+        console.log('upload');
         res.render('upload', {title:'myTube-upload'});
-    
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
 })
 
 try{
