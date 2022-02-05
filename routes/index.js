@@ -57,6 +57,15 @@ router.get('/profile/:id', async(req, res, next)=>{
 
 router.get('/video/:id', async(req, res, next)=>{
     try{
+        const video_tmp=await Video.findOne({
+			where:{id:req.params.id},
+		});
+		await Video.update({
+			views:video_tmp.views+1,
+		},{
+			where:{id:req.params.id},
+		});
+
         const video=await Video.findOne({where:{id:req.params.id},});
         res.render('video',{title:`myTube-${video.title}`,
             video,
@@ -100,11 +109,14 @@ const upload=multer({
 router.post('/video', isLoggedIn, upload.single('video'), async(req, res, next)=>{
 	try{
         console.log('video', req.body.url);
+        const today = new Date();   
+	    const time=today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate()+' '+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds();
         const video=await Video.create({
             title:req.body.title,
             content:req.body.content,
             video:req.file.filename,
             UserId:req.user.id,
+            data:time,
         });
         const hashtags=req.body.content.match(/#[^\s#]+/g);
         if (hashtags){
