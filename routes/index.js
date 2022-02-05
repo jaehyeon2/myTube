@@ -76,13 +76,10 @@ router.get('/video/:id', async(req, res, next)=>{
     }
 });
 
-router.get('/upload', isLoggedIn, async(req, res, next)=>{
-    try{
+router.get('/upload', isLoggedIn, async(req, res)=>{
+    
         res.render('upload', {title:'myTube-upload'});
-    }catch(error){
-        console.error(error);
-        next(error);
-    }
+    
 })
 
 try{
@@ -114,9 +111,10 @@ router.post('/video', isLoggedIn, upload.single('video'), async(req, res, next)=
         const video=await Video.create({
             title:req.body.title,
             content:req.body.content,
+            owner:req.user.nick,
             video:req.file.filename,
             UserId:req.user.id,
-            data:time,
+            date:time,
         });
         const hashtags=req.body.content.match(/#[^\s#]+/g);
         if (hashtags){

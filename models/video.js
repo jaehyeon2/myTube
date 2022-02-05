@@ -11,10 +11,13 @@ module.exports=class Video extends Sequelize.Model{
 				type:Sequelize.STRING(500),
 				allowNull:true,
 			},
+			owner:{
+				type:Sequelize.STRING(100),
+				allowNull:false,
+			},
 			date:{
-				type:Sequelize.DATE,
-				allowNull:true,
-				defaultValue:Sequelize.NOW,
+				type:Sequelize.STRING(100),
+				allowNull:false,
 			},
 			video:{
 				type:Sequelize.STRING(300),
