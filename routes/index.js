@@ -46,10 +46,13 @@ router.get('/profile/:id', async (req, res, next)=>{
         var isOwner=false;
         const owner=await User.findOne({where:{id:req.params.id},});
         const videos=await Video.findAll({}, {where:{UserId:req.params.id},});
-        if (req.user.nick==owner.nick){
-            isOwner=true;
+        if (!req.user){
+            
         }
-        console.log('login user', req.user.nick);
+        else if (req.user.nick==owner.nick){
+            isOwner=true;
+            console.log('login user', req.user.nick);
+        }
         res.render('channel',{title:`${owner.nick}-myTube`, owner, videos, isOwner});
         console.log('fin');
     } catch(error){
