@@ -1,26 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<table  width="100%">
+<table border="1" width="70%" height="auto">
     <tr>
         <td colspan="2">
-            <video width="70%" controls auto-play>
+            <video width="100%" controls auto-play>
                 <source src="/uploads/{{video.video}}" type="video/mp4">
                 video 지원 안 함
             </video>
         </td>
     </tr>
     <tr>
-        <td colspan="2">
-            {{video.title}}
-        </td>
+        <td rowspan="2" width="10%">{{video.owner}}</td>
+        <td colspan="2">{{video.title}}</td>
     </tr>
     <tr>
         <td>{{video.views}}</td>
         <td>{{video.date}}</td>
     </tr>
 </table>
-<hr/>
+<hr width="70%" align="left"/>
 <div class="profile">
     {{user.nick}}
     <!--본인 여부, 구독 여부를 확인한 후 오른쪽에
