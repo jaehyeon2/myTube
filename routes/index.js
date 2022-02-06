@@ -43,12 +43,14 @@ router.post('/comment', async(req, res, next)=>{
 
 router.get('/profile/:id', async (req, res, next)=>{
     try{
-        const user=await User.findOne({where:{id:req.params.id},});
-        console.log('user', user);
-        console.log('nick', user.nick);
+        var isOwner=false;
+        const owner=await User.findOne({where:{id:req.params.id},});
         const videos=await Video.findAll({}, {where:{UserId:req.params.id},});
-        console.log('sdf');
-        res.render('channel',{title:`${user.nick}-myTube`, user, videos});
+        if (req.user.nick==owner.nick){
+            isOwner=true;
+        }
+        console.log('login user', req.user.nick);
+        res.render('channel',{title:`${owner.nick}-myTube`, owner, videos, isOwner});
         console.log('fin');
     } catch(error){
         console.error(error);

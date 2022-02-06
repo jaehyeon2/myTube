@@ -3,7 +3,7 @@
 {% block content %}
 <div class="channel">
     <div class="profile">
-        <h3>{{user.nick}}</h3><br>
+        <h3>{{owner.nick}}</h3><br>
         <!--구독자 {{user.followers}}명-->
         <!--본인 여부, 구독 여부를 확인한 후 오른쪽에
         구독 또는 구독 취소 버튼이 표시되게 함.-->
@@ -28,6 +28,8 @@
     {% else %}
         동영상이 없습니다.
     {% endif %}
-    <a href="/upload">영상 업로드</a>
+    {% if isOwner %}
+        <a href="/upload">영상 업로드</a>
+    {% endif %}
 </div>
 {% endblock %}
