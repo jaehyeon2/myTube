@@ -7,6 +7,14 @@ module.exports=class Comment extends Sequelize.Model{
 				type:Sequelize.STRING(100),
 				allowNull:false,
 			},
+			videoid:{
+				type:Sequelize.STRING(100),
+				allowNull:false,
+			},
+			commentowner:{
+				type:Sequelize.STRING(100),
+				allowNull:false,
+			},
 		},{
 			sequelize,
 			timestamps:true,
@@ -22,4 +30,4 @@ module.exports=class Comment extends Sequelize.Model{
 		db.Comment.belongsTo(db.User);
 		db.Comment.belongsTo(db.Video);
 	}
-}
+};

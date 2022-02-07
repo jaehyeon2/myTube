@@ -4,9 +4,10 @@ const multer=require('multer');
 const path=require('path');
 const fs=require('fs');
 
-const {Comment, Hashtag, User, Video}=require('../models');
+const {User, Video, Comment, Hashtag}=require('../models');
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
 const { runInContext } = require('vm');
+const { redirect } = require('express/lib/response');
 
 const router=express.Router();
 
@@ -25,17 +26,21 @@ router.get('/', async(req, res, next)=>{
     }
 });
 
-router.get('/join', async(req, res)=>{
+router.get('/join', isNotLoggedIn, async(req, res)=>{
     res.render('join', {title:'myTube-join'});
 });
 
-router.get('/login', async(req, res)=>{
+router.get('/login', isNotLoggedIn, async(req, res)=>{
     res.render('login', {title:'myTube-login'});
 })
 
-router.post('/comment', async(req, res, next)=>{
+router.post('/comment', isLoggedIn, async(req, res, next)=>{
     try{
-        const {comment}=req.body;
+        await Comment.create({
+            videoid:req.body.videoid,
+            content:req.body.content,
+            commentowner:req.user.nick,
+        });
     }catch(error){
 
     }
@@ -45,7 +50,9 @@ router.get('/profile/:id', async (req, res, next)=>{
     try{
         var isOwner=false;
         const owner=await User.findOne({where:{nick:req.params.id},});
-        const videos=await Video.findAll({}, {where:{UserId:req.params.id},});
+        console.log('nick', req.params.id); 
+        const videos=await Video.findAll({where:{owner:req.params.id},});
+
         if (!req.user){
             
         }
@@ -66,6 +73,7 @@ router.get('/video/:id', async(req, res, next)=>{
         const video_tmp=await Video.findOne({
 			where:{id:req.params.id},
 		});
+        const comments=await Comment.findAll({where:{videoid:req.params.id},});
 		await Video.update({
 			views:video_tmp.views+1,
 		},{
@@ -75,6 +83,7 @@ router.get('/video/:id', async(req, res, next)=>{
         const video=await Video.findOne({where:{id:req.params.id},});
         res.render('video',{title:`myTube-${video.title}`,
             video,
+            comments,
         });
     } catch(error){
         console.error(error);

@@ -11,7 +11,6 @@
         </td>
     </tr>
     <tr>
-        <td rowspan="2" width="10%">{{video.owner}}</td>
         <td colspan="2">{{video.title}}</td>
     </tr>
     <tr>
@@ -21,10 +20,37 @@
 </table>
 <hr width="70%" align="left"/>
 <div class="profile">
-    {{user.nick}}
+    {{video.owner}}
+    {% if video.owner==user.nick %}
+    
+    {% else %}
+    <button onClick="location.href='/subscribe'">구독</button> 
+    {% endif %}
+
     <!--본인 여부, 구독 여부를 확인한 후 오른쪽에
         구독 또는 구독 취소 버튼이 표시되게 함.-->
 </div>
-{% block comment %}
-{% endblock %}
+<hr width="70%" align="left"/>
+
+댓글 {{comment.num}}개
+<form action="/comment" id="comment-form" method="post">
+    {{user.nick}}
+    <input id="videoid" type="text" value="{{video.id}}" hidden>
+    <input id="comment" type="text" placeholder="댓글을 작성하세요.">
+    <button type="submit" id="addComment">댓글 작성</button>
+</form>
+
+
+{% if comments %}
+{% for comment in comments %}
+<table>
+    <tr>
+        <td>{{comment.commentowner}}</td>
+        <td>{{comment.content}}</td>
+    </tr>
+</table>
+{% endfor %}
+{% else %}
+댓글이 없습니다.
+{% endif %}
 {% endblock %}

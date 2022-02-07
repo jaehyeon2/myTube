@@ -5,7 +5,7 @@ const config=require("../config/config")[env];
 const User=require("./user");
 const Video=require("./video");
 const Hashtag=require("./hashtag");
-const Comment=require('./comment');
+const Comment=require("./comment");
 
 const db={};
 const sequelize=new Sequelize(config.database, config.username, config.password, config,);
