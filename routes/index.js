@@ -44,7 +44,7 @@ router.post('/comment', async(req, res, next)=>{
 router.get('/profile/:id', async (req, res, next)=>{
     try{
         var isOwner=false;
-        const owner=await User.findOne({where:{id:req.params.id},});
+        const owner=await User.findOne({where:{nick:req.params.id},});
         const videos=await Video.findAll({}, {where:{UserId:req.params.id},});
         if (!req.user){
             
@@ -103,6 +103,15 @@ try{
     fs.mkdirSync('uploads');
 }
 
+/*
+try{
+    fs.readdirSync('uploads_thumbnails');
+}catch(error){
+    console.error('uploads_thumbnails folder is no exist. create uploads_thumbnails folder');
+    fs.mkdirSync('uploads_thumbnails');
+}
+*/
+
 const upload=multer({
 	storage:multer.diskStorage({
 		destination(req, file, cb){
@@ -116,6 +125,20 @@ const upload=multer({
 	limits:{fileSize:500*1024*1024},
 });
 
+/*
+const upload_thumbnail=multer({
+	storage:multer.diskStorage({
+		destination(req, file, cb){
+			cb(null, 'uploads_thumbnails/');
+		},
+		filename(req, file, cb){
+			const ext=path.extname(file.originalname);
+			cb(null, path.basename(file.originalname, ext)+new Date().valueOf()+ext);
+		},
+	}),
+	limits:{fileSize:500*1024*1024},
+});
+*/
 
 router.post('/video', isLoggedIn, upload.single('video'), async(req, res, next)=>{
 	try{
