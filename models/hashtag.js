@@ -11,16 +11,16 @@ module.exports=class Hashtag extends Sequelize.Model{
 		},{
 			sequelize,
 			timestamps:true,
-			underscored:false,
-			modelName:'Hashtag',
-			tableName:'hashtags',
+			undersored:false,
+			modelName:"Hashtag",
+			tableName:"hashtags",
 			paranoid:false,
-			charset:'utf8',
-			collate:'utf8_general_ci',
+			charset:"utf8mb4",
+			collate:"utf8mb4_general_ci",
 		});
 	}
-	
+
 	static associate(db){
-		db.Hashtag.belongsToMany(db.Video, {through:'VideoHashtag'});
+		db.Hashtag.belongsToMany(db.Video,{through:"VideoHashtag"});
 	}
-}
+};

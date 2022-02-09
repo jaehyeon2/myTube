@@ -45,7 +45,7 @@ module.exports=class Video extends Sequelize.Model{
 	
 	static associate(db){
 		db.Video.belongsTo(db.User);
-		db.Video.hasMany(db.Comment);
+		db.Video.hasMany(db.Comment, {foreignKey:'commenter', sourceKey:'id'});
 		db.Video.belongsToMany(db.Hashtag, {through:'VideoHashtag'});
 	}
 }

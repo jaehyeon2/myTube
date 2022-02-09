@@ -18,7 +18,7 @@ module.exports=class Comment extends Sequelize.Model{
 		},{
 			sequelize,
 			timestamps:true,
-			paranoid:false,
+			paranoid:true,
 			underscored:false,
 			modelName:"Comment",
 			tableName:"comments",
@@ -29,6 +29,6 @@ module.exports=class Comment extends Sequelize.Model{
 	
 	static associate(db){
 		db.Comment.belongsTo(db.User);
-		db.Comment.belongsTo(db.Video);
+		db.Comment.belongsTo(db.Video, {foreignKey:'commenter', targetKey:'id'});
 	}
 };

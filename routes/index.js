@@ -36,13 +36,18 @@ router.get('/login', isNotLoggedIn, async(req, res)=>{
 
 router.post('/comment', isLoggedIn, async(req, res, next)=>{
     try{
-        await Comment.create({
+        console.log('content', req.body.comment);
+        console.log('videoid', req.body.videoid);
+        console.log('commentowner', req.user.nick);
+        const comment=await Comment.create({
+            content:req.body.comment,
             videoid:req.body.videoid,
-            content:req.body.content,
             commentowner:req.user.nick,
         });
+        res.redirect(req.get('referer'));
     }catch(error){
-
+        console.error(error);
+        next(error);
     }
 });
 
