@@ -97,7 +97,16 @@ router.get('/video/:id', async(req, res, next)=>{
 });
 
 router.get('/delete/video/:id', isLoggedIn, async(req, res, next)=>{
-
+    try{
+        await Video.destroy({
+            where:{id:req.params.id},
+        });
+        console.log('delete');
+        res.redirect('/');
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
 })
 
 router.get('/upload', isLoggedIn, async(req, res, next)=>{

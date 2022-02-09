@@ -11,7 +11,12 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2">{{video.title}}</td>
+        <td colspan="2">{{video.title}}
+            {% if video.owner==user.nick %}
+            <button align="right" onClick="location.href='/delete/video/{{video.id}}'">동영상 삭제</button>
+            {% endif %}
+        </td>
+        
     </tr>
     <tr>
         <td>{{video.views}}</td>
