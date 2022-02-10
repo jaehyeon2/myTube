@@ -13,6 +13,9 @@ const router=express.Router();
 
 router.use((req, res, next)=>{
     res.locals.user=req.user;
+    res.locals.follwerCount=req.user?req.user.Followers.length:0;
+    res.locals.followingCount=req.user?req.user.Followings.length:0;
+    res.locals.followerIdList=req.user?req.user.Followings.map(f=>f.id):[];
     next();
 });
 
@@ -34,22 +37,7 @@ router.get('/login', isNotLoggedIn, async(req, res)=>{
     res.render('login', {title:'myTube-login'});
 })
 
-router.post('/comment', isLoggedIn, async(req, res, next)=>{
-    try{
-        console.log('content', req.body.comment);
-        console.log('videoid', req.body.videoid);
-        console.log('commentowner', req.user.nick);
-        const comment=await Comment.create({
-            content:req.body.comment,
-            videoid:req.body.videoid,
-            commentowner:req.user.nick,
-        });
-        res.redirect(req.get('referer'));
-    }catch(error){
-        console.error(error);
-        next(error);
-    }
-});
+//channel page
 
 router.get('/profile/:id', async (req, res, next)=>{
     try{
@@ -72,6 +60,43 @@ router.get('/profile/:id', async (req, res, next)=>{
         next(error);
     }
 });
+
+router.post('/user/:id/subcribe', isLoggedIn, async(req, res, next)=>{
+    try{
+        const user=await User.findOne({where:{id:req.user.id}});
+        console.log('user', user);
+        if (user){
+            await user.addFollowing(parseInt(req.params.id, 10));
+            console.log('success');
+            res.redirect(req.get('referer'));
+        }else{
+            res.status(404).send('no user');
+        }
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
+});
+
+//video page
+
+router.post('/comment', isLoggedIn, async(req, res, next)=>{
+    try{
+        console.log('content', req.body.comment);
+        console.log('videoid', req.body.videoid);
+        console.log('commentowner', req.user.nick);
+        const comment=await Comment.create({
+            content:req.body.comment,
+            videoid:req.body.videoid,
+            commentowner:req.user.nick,
+        });
+        res.redirect(req.get('referer'));
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
+});
+
 
 router.get('/video/:id', async(req, res, next)=>{
     try{
@@ -121,6 +146,8 @@ router.get('/delete/comment/:id', isLoggedIn, async(req, res, next)=>{
         next(error);
     }
 });
+
+//upload page
 
 router.get('/upload', isLoggedIn, async(req, res, next)=>{
     try{

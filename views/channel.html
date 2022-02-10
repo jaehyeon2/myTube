@@ -3,7 +3,21 @@
 {% block content %}
 <div class="channel">
     <div class="profile">
-        <h3>{{owner.nick}}</h3><br>
+        <input type="hidden" value="{{owner.id}}" class="channel-user-id">
+        <h3 class="ownernick">{{owner.nick}}</h3><br>
+        {% if not followerIdList.includes(owner.id) and owner.id!==user.id %}
+        <button class="follow">subscribe</button>
+        {% elseif owner.id==user.id %}
+        mine
+        {% else %}
+        <button class="following">subscring</button>
+        {% endif %}
+
+        {% if owner.Followings %}
+        {% for following in owner.Followings %}
+        <div>{{following.nick}}</div>
+        {% endfor %}
+        {% endif %}
         <!--구독자 {{user.followers}}명-->
         <!--본인 여부, 구독 여부를 확인한 후 오른쪽에
         구독 또는 구독 취소 버튼이 표시되게 함.-->
@@ -32,4 +46,30 @@
         <a href="/upload">영상 업로드</a>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+document.querySelectorAll('.follow').forEach(function(tag){
+    tag.addEventListener('click', function(){
+        const myId=document.querySelector('#my-id');
+        console.log('myid', myId.value);
+        if(myId){
+            const userId=tag.parentNode.querySelector('.channel-user-id').value;
+            console.log('userId', userId);
+            if(userId!==myId.value){
+                if (confirm('구독하시겠습니까?')){
+                    axios.post(`/user/${userId}/subcribe`)
+                    .then(()=>{
+                        location.reload();
+                    })
+                    .catch((err)=>{
+                        console.error(err);
+                    });
+                }
+            }
+        }
+    });
+});
+</script>
 {% endblock %}

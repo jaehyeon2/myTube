@@ -26,6 +26,7 @@
 				</div>
 				<div class="profile">
 					{% if user and user.id %}
+					<input id="my-id" type="hidden" value="{{user.id}}">
 					<a href="/profile/{{user.nick}}"><div class="user-name">{{user.nick}}</div></a>
 					<a id="logout" href="/auth/logout" class="btn">로그아웃</a>
 					{% else %}
