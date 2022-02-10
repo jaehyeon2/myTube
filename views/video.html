@@ -4,7 +4,7 @@
 <table border="1" width="70%" height="auto">
     <tr>
         <td colspan="2">
-            <video width="100%" controls auto-play>
+            <video width="50%" controls auto-play>
                 <source src="/uploads/{{video.video}}" type="video/mp4">
                 video 지원 안 함
             </video>
@@ -56,6 +56,9 @@
     <tr>
         <td>{{comment.commentowner}}</td>
         <td>{{comment.content}}</td>
+        {% if comment.commentowner==user.nick %}
+        <td><button onClick="location.href='/delete/comment/{{comment.id}}'">댓글 삭제</button></td>
+        {% endif %}
     </tr>
 </table>
 {% endfor %}

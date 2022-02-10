@@ -107,7 +107,20 @@ router.get('/delete/video/:id', isLoggedIn, async(req, res, next)=>{
         console.error(error);
         next(error);
     }
-})
+});
+
+router.get('/delete/comment/:id', isLoggedIn, async(req, res, next)=>{
+    try{
+        await Comment.destroy({
+            where:{id:req.params.id},
+        });
+        console.log('delete');
+        res.redirect(req.get('referer'));
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
+});
 
 router.get('/upload', isLoggedIn, async(req, res, next)=>{
     try{
