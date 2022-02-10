@@ -13,9 +13,9 @@
         <button class="following">subscring</button>
         {% endif %}
 
-        {% if owner.Followings %}
-        {% for following in owner.Followings %}
-        <div>{{following.nick}}</div>
+        {% if owner.Followers %}
+        {% for follower in owner.Followers %}
+        <div>{{follower.nick}}</div>
         {% endfor %}
         {% endif %}
         <!--구독자 {{user.followers}}명-->
